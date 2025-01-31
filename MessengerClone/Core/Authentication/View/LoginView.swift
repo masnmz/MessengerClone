@@ -23,7 +23,7 @@ struct LoginView: View {
                     .frame(width: 150, height: 150)
                     .padding()
 //                text fields
-                VStack {
+                VStack() {
                     TextField("Enter your email", text: $email)
                         .font(.subheadline)
                         .padding(12)
@@ -91,7 +91,8 @@ struct LoginView: View {
 //                don't have an account? Sign Up button
                 Divider()
                 NavigationLink {
-                    Text("Sign up View")
+                    RegistrationView()
+                        .navigationBarBackButtonHidden()
                 } label: {
                     HStack(spacing: 3) {
                         Text("Don't have an account?")
