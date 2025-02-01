@@ -34,11 +34,7 @@ struct InboxView: View {
                     HStack {
                         NavigationLink(value: user) {
                             if user.profileImageUrl != "" {
-                                Image(user.profileImageUrl ?? "")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 32, height: 32)
-                                    .clipShape(Circle())
+                                CircularProfileImageView(user: user, size: .xSmall)
                             
                             }
                             else if user.profileImageUrl == "" {
