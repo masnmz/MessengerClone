@@ -11,6 +11,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @State var viewModel = ProfileViewModel()
+    let user: User
+    
     var body: some View {
         //            header
         VStack {
@@ -23,13 +25,15 @@ struct ProfileView: View {
                         .clipShape(Circle())
                         
                 } else {
-                    Image(systemName: "person.circle.fill")
+                    Image(user.profileImageUrl ?? "")
                         .resizable()
+                        .scaledToFill()
                         .frame(width: 80, height: 80)
-                    .foregroundStyle(Color(.systemGray4)) }
+                        .clipShape(Circle())
+                }
             }
             
-            Text("Bruce Wayne")
+            Text(user.fullname)
                 .font(.title)
                 .fontWeight(.semibold)
             //            list
@@ -50,7 +54,7 @@ struct ProfileView: View {
                 }
                 
                 Section {
-                    Button("Log Our") {
+                    Button("Log Out") {
                         
                     }
                     
@@ -65,5 +69,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(user: User.MockUser)
 }
