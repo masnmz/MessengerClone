@@ -37,8 +37,8 @@ class UserService {
         print("DEBUG: Current user in service is \(String(describing: currentUser))")
     }
     
-    func clearUserData() {
-        self.currentUser = nil
+    static func fetchAllUsers() async throws -> [User] {
+        let snapshot = try await Firestore.firestore().collection("users").getDocuments()
+        return snapshot.documents.compactMap({ try? $0.data(as: User.self)})
     }
-    
 }
