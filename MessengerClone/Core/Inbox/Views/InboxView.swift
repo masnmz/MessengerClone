@@ -9,7 +9,11 @@ import SwiftUI
 
 struct InboxView: View {
     @State private var showingMessageView = false
-    @State private var user = User.MockUser
+    @State private var viewModel = InboxViewModel()
+    
+    private var user: User? {
+        return viewModel.currentUser
+    }
     
     var body: some View {
         NavigationStack {
@@ -33,11 +37,11 @@ struct InboxView: View {
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack {
                         NavigationLink(value: user) {
-                            if user.profileImageUrl != "" {
+                            if user?.profileImageUrl != "" {
                                 CircularProfileImageView(user: user, size: .xSmall)
                             
                             }
-                            else if user.profileImageUrl == "" {
+                            else if user?.profileImageUrl == "" {
                                 Image(systemName: "person.circle.fill")
                                     .resizable()
                                     .frame(width: 32, height: 32)

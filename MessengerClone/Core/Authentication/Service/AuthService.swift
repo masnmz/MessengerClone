@@ -36,6 +36,7 @@ class AuthService {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user
+            try await UserService.shared.fetchCurrentUser()
             
         } catch {
             print("Debug: Failed to sign in user with error: \(error.localizedDescription)")
@@ -56,6 +57,7 @@ class AuthService {
         do {
             try Auth.auth().signOut() // signs out on backend
             self.userSession = nil // updates routing logic
+            UserService.shared.clearUserData()
         } catch {
             print("DEBUG: Failed to sign Out with error \(error.localizedDescription)")
         }
