@@ -13,15 +13,15 @@ import Observation
 class ChatViewModel {
     var messageText = ""
     var messages = [Message]()
-    let user: User
+    let service: ChatService
     
     init(user: User) {
-        self.user = user
+        self.service = ChatService(chatPartner: user)
         observeMessages()
     }
     
     func observeMessages() {
-        MessageService.observeMessages(chatParner: user) { messages in
+        service.observeMessages() { messages in
             self.messages.append(contentsOf: messages)
                                                             
                                                     
@@ -29,6 +29,6 @@ class ChatViewModel {
     }
     
     func sendMessages() {
-        MessageService.sendMessage(messageText, toUser: user)
+        service.sendMessage(messageText)
     }
 }
