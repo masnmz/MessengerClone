@@ -26,7 +26,7 @@ struct InboxRowView: View {
                     .frame(maxWidth: UIScreen.main.bounds.width - 100, alignment: .leading)
             }
             HStack {
-                Text("\(message.timestamp.dateValue().formatted(date: .long, time: .shortened))")
+                Text(message.timeStampString)
                 
                 Image(systemName: "chevron.right")
             }
