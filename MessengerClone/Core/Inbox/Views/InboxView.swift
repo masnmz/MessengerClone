@@ -26,35 +26,44 @@ struct InboxView: View {
                         .listRowInsets(EdgeInsets())
                         .padding(.vertical)
                         .padding(.horizontal, 4)
-                    ForEach(viewModel.recentMessages) { message in
-                        ZStack {
-                            NavigationLink(value: message) {
-                                EmptyView()
-                            }.opacity(0.0)
-                            
-                            InboxRowView(message: message)
-                        }
+                    
+                        ForEach(viewModel.recentMessages) { message in
+                            ZStack {
+                                NavigationLink(value: message) {
+                                    EmptyView()
+                                }.opacity(0.0)
+                                
+                                InboxRowView(message: message)
+                            }
+                        
                     }
                 }
+                .navigationTitle("Chats")
+                .navigationBarTitleDisplayMode(.inline)
                 .listStyle(PlainListStyle())
-            
+                
             .onChange(of: selectedUser) { _ , newValue in
                 showChat = newValue != nil
             }
-            .navigationDestination(for: Message.self, destination: { message in
+            .navigationDestination(for: Message.self) { message in
                 if let user = message.user {
                     ChatView(user: user)
                 }
-            })
+            }
             
-            .navigationDestination(for: User.self, destination: { user in
-                ProfileView(user: user)
-            })
-            .navigationDestination(isPresented: $showChat, destination: {
+            .navigationDestination(for: Route.self) { route in
+                switch route {
+                case .profile(let user):
+                    ProfileView(user: user)
+                case .chatView(let user):
+                    ChatView(user: user)
+                }
+            }
+            .navigationDestination(isPresented: $showChat) {
                 if let user = selectedUser {
                     ChatView(user: user)
                 }
-            })
+            }
             
             .fullScreenCover(isPresented: $showingMessageView, content: {
                 NewMessageView(selectedUser: $selectedUser)
@@ -62,22 +71,20 @@ struct InboxView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack {
-                        NavigationLink(value: user) {
-                            if user?.profileImageUrl != "" {
-                                CircularProfileImageView(user: user, size: .xSmall)
-                                
+                        if let user {
+                            NavigationLink(value: Route.profile(user)) {
+                                if let imageUrl = user.profileImageUrl, !imageUrl.isEmpty {
+                                    CircularProfileImageView(user: user, size: .xSmall)
+                                } else {
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .frame(width: 32, height: 32)
+                                        .foregroundStyle(Color(.systemGray4))
+                                }
                             }
-                            else if user?.profileImageUrl == "" {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .frame(width: 32, height: 32)
-                                    .foregroundStyle(Color(.systemGray4))
-                            }
+
                         }
                         
-                        Text("Chats")
-                            .font(.title)
-                            .fontWeight(.semibold)
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {

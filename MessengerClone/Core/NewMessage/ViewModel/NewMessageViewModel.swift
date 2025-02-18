@@ -19,7 +19,7 @@ class NewMessageViewModel {
     
     func fetchUsers() async throws {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
-        let users = try await UserService.fetchAllUsers()
+        let users = try await UserService.fetchAllUsers(limit: 10)
         self.users = users.filter { $0.uid != currentUid }
     }
 }

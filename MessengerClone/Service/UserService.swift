@@ -9,6 +9,7 @@ import Foundation
 import Observation
 import FirebaseAuth
 import FirebaseFirestore
+
 @Observable
 class UserService {
     var currentUser: User?
@@ -37,7 +38,11 @@ class UserService {
         print("DEBUG: Current user in service is \(String(describing: currentUser))")
     }
     
-    static func fetchAllUsers() async throws -> [User] {
+    static func fetchAllUsers(limit: Int? = nil) async throws -> [User] {
+        let query = Firestore.firestore().collection("users")
+        if let limit {
+            query.limit(to: limit)
+        }
         let snapshot = try await Firestore.firestore().collection("users").getDocuments()
         return snapshot.documents.compactMap({ try? $0.data(as: User.self)})
     }
