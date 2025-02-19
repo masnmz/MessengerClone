@@ -51,11 +51,12 @@ struct ProfileView: View {
                                     .foregroundStyle(option.imageBackgroundColor)
                                 Text(option.title)
                                     .font(.headline)
-                                
+                                    .foregroundStyle(isDarkMode ? .white : .black)
                                 Spacer()
                                 
                                 
                                 }
+                            
                             }
                             if option == .darkMode {
                                 Toggle("", isOn: $isDarkMode)

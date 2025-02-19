@@ -37,9 +37,11 @@ enum SettingOptionsViewModel: Int, CaseIterable, Identifiable {
     
     var imageBackgroundColor: Color {
         switch self {
-        case .darkMode: return .black
+        case .darkMode:
+            return UserDefaults.standard.bool(forKey: "isDarkMode") ? Color.white : Color.black
         case .activeStatus: return Color(.systemGreen)
-        case .accessibility: return .black
+        case .accessibility: 
+            return UserDefaults.standard.bool(forKey: "isDarkMode") ? Color.white : Color.black
         case .privacy: return Color(.systemBlue)
         case .notifications: return Color(.systemPurple)
         }
