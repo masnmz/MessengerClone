@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ChatMessageCell: View {
+    @AppStorage("isDarkMode") private var isDarkMode = false
     let message: Message
     
     private var isFromCurrentUser: Bool {
@@ -34,7 +35,7 @@ struct ChatMessageCell: View {
                     Text(message.messageText)
                         .font(.subheadline)
                         .padding(12)
-                        .background(Color(.systemGray5))
+                        .background(isDarkMode ? Color(.systemGray): Color(.systemGray5)  )
                         .foregroundStyle(.black)
                         .clipShape(ChatBubble(isFromCurrentUser: isFromCurrentUser))
                         .frame(maxWidth: UIScreen.main.bounds.width / 1.74, alignment: .leading)

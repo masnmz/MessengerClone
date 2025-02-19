@@ -47,3 +47,27 @@ enum SettingOptionsViewModel: Int, CaseIterable, Identifiable {
     
     var id: Int { return self.rawValue}
 }
+
+func handleOptionSelection(_ option: SettingOptionsViewModel) {
+    switch option {
+    case .darkMode:
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkMode")
+        UserDefaults.standard.set(!isDarkMode, forKey: "isDarkMode") // Toggle Dark Mode
+        
+        
+        
+    case .privacy:
+        print("Navigate to Privacy Settings")
+        // Open privacy settings
+        
+    case .notifications:
+        print("Navigate to Notifications Settings")
+        // Open notifications settings
+        
+    case .activeStatus:
+        print("Do it later")
+    case .accessibility:
+        print("Do it later")
+        
+    }
+}

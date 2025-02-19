@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChatView: View {
     @State var viewModel: ChatViewModel
+    @AppStorage("isDarkMode") private var isDarkMode = false
     let user: User
     
     init(user: User) {
@@ -50,7 +51,7 @@ struct ChatView: View {
                 TextField("Message...", text: $viewModel.messageText, axis: .vertical)
                     .padding(12)
                     .padding(.trailing, 48)
-                    .background(Color(.systemGroupedBackground))
+                    .background(isDarkMode ? Color(.systemGray5): Color(.systemGroupedBackground))
                     .clipShape(Capsule())
                     .font(.subheadline)
                 

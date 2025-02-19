@@ -10,6 +10,7 @@ import SwiftUI
 struct NewMessageView: View {
     @State private var searchText = ""
     @State private var viewModel = NewMessageViewModel()
+    @AppStorage("isDarkMode") private var isDarkMode = false
     @Binding var selectedUser: User?
     @Environment(\.dismiss) var dismiss
     var body: some View {
@@ -17,8 +18,10 @@ struct NewMessageView: View {
             ScrollView {
                 TextField("To: ", text: $searchText)
                     .frame(height: 44)
-                    .padding(.leading)
-                    .background(Color(.systemGroupedBackground))
+                    .background(isDarkMode ? Color(.systemGray5) : Color(.systemGroupedBackground)) // Background should be applied before clipping
+                    .clipShape(Rectangle())
+                    .cornerRadius(10)
+                    .padding(.leading) // External padding
                 
                 Text("Contacts")
                     .foregroundStyle(.gray)
@@ -62,7 +65,7 @@ struct NewMessageView: View {
 }
 
 #Preview {
-   
+    
     NavigationStack {
         NewMessageView(selectedUser: .constant(User.MockUser))
     }
